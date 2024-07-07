@@ -1,9 +1,10 @@
 package net.raeen.aetheriusmod.character;
 
+import net.raeen.aetheriusmod.classes.CharacterClass;
+import net.raeen.aetheriusmod.items.Item;
+import net.raeen.aetheriusmod.progression.Progression;
 import net.raeen.aetheriusmod.quests.Quest;
 import net.raeen.aetheriusmod.races.Race;
-import net.raeen.aetheriusmod.classes.CharacterClass;
-import net.raeen.aetheriusmod.progression.Progression;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,13 +12,14 @@ import java.util.List;
 import java.util.Map;
 
 public class GameCharacter {
-    private String name;
-    private Race race;
-    private CharacterClass characterClass;
-    private String appearance;
-    private Map<String, Integer> attributes;
-    private Progression progression;
-    private List<Quest> activeQuests;
+    private final String name;
+    private final Race race;
+    private final CharacterClass characterClass;
+    private final String appearance;
+    private final Map<String, Integer> attributes;
+    private final Progression progression;
+    private final List<Quest> activeQuests;
+    private final Map<String, Item> equipment;
 
     public GameCharacter(String name, Race race, CharacterClass characterClass, String appearance) {
         this.name = name;
@@ -27,6 +29,10 @@ public class GameCharacter {
         this.attributes = new HashMap<>();
         this.progression = new Progression();
         this.activeQuests = new ArrayList<>();
+        this.equipment = new HashMap<>();
+
+        // Apply racial abilities
+        this.race.applyRacialAbilities(this);
     }
 
     public void setAttribute(String attribute, int value) {
@@ -73,10 +79,15 @@ public class GameCharacter {
         if (activeQuests.contains(quest)) {
             activeQuests.remove(quest);
             progression.gainExperience(quest.getExperienceReward());
-            System.out.println("Quest Completed: " + quest.getName());
-            System.out.println("Experience Gained: " + quest.getExperienceReward());
-            System.out.println("Items Rewarded: " + String.join(", ", quest.getItemRewards()));
-            System.out.println("Currency Rewarded: " + quest.getCurrencyReward());
+            // Additional code to handle item and currency rewards
         }
+    }
+
+    public void equipItem(Item item) {
+        equipment.put(item.getItemType(), item);
+    }
+
+    public Item getEquippedItem(String itemType) {
+        return equipment.get(itemType);
     }
 }

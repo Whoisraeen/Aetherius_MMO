@@ -25,9 +25,14 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.raeen.aetheriusmod.classes.CharacterClass;
+import net.raeen.aetheriusmod.items.Armor;
+import net.raeen.aetheriusmod.items.Helmet;
 import net.raeen.aetheriusmod.quests.Quest;
 import net.raeen.aetheriusmod.races.Race;
 import org.slf4j.Logger;
+
+import java.util.Arrays;
+import java.util.List;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AetheriusMod.MODID)
@@ -62,22 +67,43 @@ public class AetheriusMod {
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
             // Define races
-            Race elf = new Race("Elf", new String[]{"Agility", "Magic Proficiency"});
-            Race dwarf = new Race("Dwarf", new String[]{"Strength", "Durability"});
+            Race elf = new Elf();
+            Race dwarf = new Dwarf();
 
             // Define classes
             CharacterClass ranger = new CharacterClass("Forest Ranger", new String[]{"Bow Mastery", "Stealth"});
             CharacterClass warrior = new CharacterClass("Warrior", new String[]{"Sword Mastery", "Shield Defense"});
 
             // Create characters
-            net.raeen.aetheriusmod.character.GameCharacter elfRanger = new net.raeen.aetheriusmod.character.GameCharacter("Legolas", elf, ranger, "Tall and slender with green eyes");
-            net.raeen.aetheriusmod.character.GameCharacter dwarfWarrior = new net.raeen.aetheriusmod.character.GameCharacter("Gimli", dwarf, warrior, "Short and stout with a long beard");
+            net.raeen.aetheriusmod.character.GameCharacter elfRanger = new GameCharacter("Legolas", elf, ranger, "Tall and slender with green eyes");
+            GameCharacter dwarfWarrior = new GameCharacter("Gimli", dwarf, warrior, "Short and stout with a long beard");
 
-            // Set attributes
-            elfRanger.setAttribute("Strength", 10);
-            elfRanger.setAttribute("Agility", 15);
-            dwarfWarrior.setAttribute("Strength", 18);
-            dwarfWarrior.setAttribute("Durability", 20);
+            // Equip items
+            Helmet helmet = new Helmet("Elf Helmet", "A helmet for elves", 3);
+            elfRanger.equipItem(helmet);
+
+            Armor armor = new Armor("Dwarf Armor", "Sturdy armor for dwarves", 5);
+            dwarfWarrior.equipItem(armor);
+
+            // Log equipped items
+            LOGGER.info("Character: {}", elfRanger.getName());
+            LOGGER.info("Equipped Helmet: {}", elfRanger.getEquippedItem("Helmet").getName());
+
+            LOGGER.info("Character: {}", dwarfWarrior.getName());
+            LOGGER.info("Equipped Armor: {}", dwarfWarrior.getEquippedItem("Armor").getName());
 
             // Create quests
-            Quest quest1 = new Quest("Goblin Hunt", "Hunt10}
+            List<String> goblinHuntObjectives = Arrays.asList("Hunt 10 goblins");
+            Quest goblinHuntQuest = new Quest("Goblin Hunt", "Hunt 10 goblins in the forest", goblinHuntObjectives, 50, Arrays.asList("Gold Coin"), 100);
+
+            // Accept and complete quests
+            elfRanger.acceptQuest(goblinHuntQuest);
+            elfRanger.completeQuest(goblinHuntQuest);
+
+            // Verify progression
+            LOGGER.info("Character: {}", elfRanger.getName());
+            LOGGER.info("Level: {}", elfRanger.getProgression().getLevel());
+            LOGGER.info("Experience: {}", elfRanger.getProgression().getExperience());
+        }
+    }
+}

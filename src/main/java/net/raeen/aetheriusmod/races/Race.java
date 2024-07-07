@@ -1,19 +1,26 @@
 package net.raeen.aetheriusmod.races;
 
-public class Race {
-    private String name;
-    private String[] abilities;
+import net.raeen.aetheriusmod.character.GameCharacter;
 
-    public Race(String name, String[] abilities) {
+import java.util.Arrays;
+import java.util.List;
+
+public abstract class Race {
+    private final String name;
+    private final List<String> traits;
+
+    public Race(String name, String[] traits) {
         this.name = name;
-        this.abilities = abilities;
+        this.traits = Arrays.asList(traits);
     }
 
     public String getName() {
         return name;
     }
 
-    public String[] getAbilities() {
-        return abilities;
+    public List<String> getTraits() {
+        return traits;
     }
+
+    public abstract void applyRacialAbilities(GameCharacter character);
 }
