@@ -8,13 +8,12 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.raeen.aetheriusmod.classes.CharacterClass;
+import net.raeen.aetheriusmod.commands.OpenEquipmentScreenCommand;
 import net.raeen.aetheriusmod.races.Dwarf;
 import net.raeen.aetheriusmod.races.Elf;
 import net.raeen.aetheriusmod.races.Race;
@@ -22,7 +21,6 @@ import net.raeen.aetheriusmod.character.GameCharacter;
 import net.raeen.aetheriusmod.quests.*;
 import net.raeen.aetheriusmod.items.*;
 import net.raeen.aetheriusmod.social.*;
-import net.raeen.aetheriusmod.gui.EquipmentScreen;
 import net.raeen.aetheriusmod.mobs.*;
 import net.raeen.aetheriusmod.biomes.*;
 import net.raeen.aetheriusmod.dungeons.*;
@@ -52,6 +50,7 @@ public class AetheriusMod {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(this::clientSetup);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -62,9 +61,14 @@ public class AetheriusMod {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
     }
 
+    private void clientSetup(final FMLClientSetupEvent event) {
+        LOGGER.info("HELLO FROM CLIENT SETUP");
+    }
+
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("HELLO from server starting");
+        OpenEquipmentScreenCommand.register(event.getServer().getCommands().getDispatcher());
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
