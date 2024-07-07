@@ -2,13 +2,6 @@ package net.raeen.aetheriusmod;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -21,20 +14,35 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import net.raeen.aetheriusmod.classes.CharacterClass;
-import net.raeen.aetheriusmod.items.Armor;
-import net.raeen.aetheriusmod.items.Helmet;
-import net.raeen.aetheriusmod.quests.Quest;
+import net.raeen.aetheriusmod.races.Dwarf;
+import net.raeen.aetheriusmod.races.Elf;
 import net.raeen.aetheriusmod.races.Race;
+import net.raeen.aetheriusmod.character.GameCharacter;
+import net.raeen.aetheriusmod.quests.*;
+import net.raeen.aetheriusmod.items.*;
+import net.raeen.aetheriusmod.social.*;
+import net.raeen.aetheriusmod.gui.EquipmentScreen;
+import net.raeen.aetheriusmod.mobs.*;
+import net.raeen.aetheriusmod.biomes.*;
+import net.raeen.aetheriusmod.dungeons.*;
+import net.raeen.aetheriusmod.mounts.*;
+import net.raeen.aetheriusmod.pets.*;
+import net.raeen.aetheriusmod.housing.*;
+import net.raeen.aetheriusmod.events.*;
+import net.raeen.aetheriusmod.achievements.*;
+import net.raeen.aetheriusmod.titles.*;
+import net.raeen.aetheriusmod.cosmetics.*;
+import net.raeen.aetheriusmod.combat.*;
+import net.raeen.aetheriusmod.lore.*;
+import net.raeen.aetheriusmod.economy.*;
+import net.raeen.aetheriusmod.pvp.*;
+import net.raeen.aetheriusmod.environment.*;
 import org.slf4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(AetheriusMod.MODID)
 public class AetheriusMod {
     public static final String MODID = "aetheriusmod";
@@ -75,7 +83,7 @@ public class AetheriusMod {
             CharacterClass warrior = new CharacterClass("Warrior", new String[]{"Sword Mastery", "Shield Defense"});
 
             // Create characters
-            net.raeen.aetheriusmod.character.GameCharacter elfRanger = new GameCharacter("Legolas", elf, ranger, "Tall and slender with green eyes");
+            GameCharacter elfRanger = new GameCharacter("Legolas", elf, ranger, "Tall and slender with green eyes");
             GameCharacter dwarfWarrior = new GameCharacter("Gimli", dwarf, warrior, "Short and stout with a long beard");
 
             // Equip items
@@ -104,6 +112,95 @@ public class AetheriusMod {
             LOGGER.info("Character: {}", elfRanger.getName());
             LOGGER.info("Level: {}", elfRanger.getProgression().getLevel());
             LOGGER.info("Experience: {}", elfRanger.getProgression().getExperience());
+
+            // Initialize social systems
+            Guild guild = new Guild("Fellowship");
+            guild.addMember("Legolas");
+            guild.addMember("Gimli");
+
+            TradeSystem tradeSystem = new TradeSystem();
+            tradeSystem.addTradeOffer("Legolas", helmet);
+            tradeSystem.addTradeOffer("Gimli", armor);
+
+            ChatInterface chatInterface = new ChatInterface();
+            chatInterface.addMessage("Hello world!", "World");
+
+            // Log guild members
+            LOGGER.info("Guild: {}", guild.getName());
+            LOGGER.info("Members: {}", guild.getMembers());
+
+            // Log trade offers
+            LOGGER.info("Trade offer from Legolas: {}", tradeSystem.getTradeOffer("Legolas").getName());
+            LOGGER.info("Trade offer from Gimli: {}", tradeSystem.getTradeOffer("Gimli").getName());
+
+            // Log chat messages
+            LOGGER.info("World Chat: {}", chatInterface.getWorldChat());
+
+            // Initialize mobs and biomes
+            MobRegistry mobRegistry = new MobRegistry();
+            BiomeRegistry biomeRegistry = new BiomeRegistry(mobRegistry);
+
+            for (Biome biome : biomeRegistry.getBiomes()) {
+                LOGGER.info("Biome: {}", biome.getName());
+                for (Mob mob : biome.getMobs()) {
+                    LOGGER.info("Mob: {} in {}", mob.getName(), biome.getName());
+                }
+            }
+
+            // Initialize dungeons
+            DungeonManager dungeonManager = new DungeonManager();
+            DungeonInstance goblinCaveInstance = dungeonManager.createDungeonInstance("Goblin Cave", Arrays.asList(elfRanger, dwarfWarrior));
+
+            LOGGER.info("Dungeon: {}", goblinCaveInstance.getName());
+            for (GameCharacter participant : goblinCaveInstance.getParticipants()) {
+                LOGGER.info("Participant: {}", participant.getName());
+            }
+
+            // Initialize mounts and pets
+            Mount horse = new Mount("Horse", 10);
+            Pet dragonPet = new Pet("Dragon", "Fire Breath");
+
+            // Initialize player housing
+            PlayerHouse legolasHouse = new PlayerHouse("Legolas", "Rivendell", 10);
+
+            // Initialize events and contests
+            Event treasureHunt = new Event("Treasure Hunt", "Find the hidden treasure", 100);
+
+            // Initialize achievements and titles
+            Achievement dragonSlayer = new Achievement("Dragon Slayer", "Defeat the dragon", 50);
+            Title champion = new Title("Champion", "Win 10 battles");
+
+            // Initialize cosmetic shop
+            CosmeticItem fancyHat = new CosmeticItem("Fancy Hat", "A very fancy hat", 100);
+            CosmeticShop cosmeticShop = new CosmeticShop();
+            cosmeticShop.updateItems(Arrays.asList(fancyHat));
+
+            // Initialize combat system
+            CombatSystem combatSystem = new CombatSystem();
+            combatSystem.applyStatusEffect(dwarfWarrior, new StatusEffect("Poisoned", "Damage Over Time", 10));
+
+            // Initialize lore
+            Lore lore = new Lore();
+            LOGGER.info("Lore: {}", lore.getLore("Elf"));
+
+            // Initialize economy system
+            EconomySystem economySystem = new EconomySystem();
+            economySystem.addPlayer("Legolas");
+            economySystem.updateBalance("Legolas", 200);
+            LOGGER.info("Legolas' Balance: {}", economySystem.getBalance("Legolas"));
+
+            // Initialize PvP system
+            PvPSystem pvpSystem = new PvPSystem();
+            pvpSystem.initiateDuel(elfRanger, dwarfWarrior);
+
+            // Initialize environment
+            WeatherSystem weatherSystem = new WeatherSystem();
+            weatherSystem.changeWeather("Rainy");
+            LOGGER.info("Current Weather: {}", weatherSystem.getCurrentWeather());
+
+            DayNightCycle dayNightCycle = new DayNightCycle();
+            dayNightCycle.changeTimeOfDay("Night");
+            LOGGER.info("Time of Day: {}", dayNightCycle.getTimeOfDay());
         }
     }
 }

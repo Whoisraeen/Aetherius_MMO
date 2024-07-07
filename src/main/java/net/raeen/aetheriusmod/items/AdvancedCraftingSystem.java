@@ -3,24 +3,23 @@ package net.raeen.aetheriusmod.items;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CraftingSystem {
+public class AdvancedCraftingSystem {
     private final Map<String, String[]> recipes;
 
-    public CraftingSystem() {
+    public AdvancedCraftingSystem() {
         this.recipes = new HashMap<>();
         initializeRecipes();
     }
 
     private void initializeRecipes() {
-        recipes.put("Sword", new String[]{"Iron", "Wood"});
-        recipes.put("Bow", new String[]{"String", "Wood"});
+        recipes.put("Advanced Sword", new String[]{"Diamond", "Wood"});
+        recipes.put("Magic Wand", new String[]{"Crystal", "Wood"});
         // Add more recipes
     }
 
     public Item craftItem(String itemName, String[] materials) {
         if (recipes.containsKey(itemName)) {
             String[] requiredMaterials = recipes.get(itemName);
-            // Check if materials match and craft item
             boolean canCraft = true;
             for (String material : requiredMaterials) {
                 boolean found = false;
@@ -36,7 +35,6 @@ public class CraftingSystem {
                 }
             }
             if (canCraft) {
-                // Craft the item
                 return new Item(itemName, "Crafted " + itemName, 1, "Crafted Item");
             }
         }
