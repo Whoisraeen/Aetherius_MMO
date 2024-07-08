@@ -1,5 +1,7 @@
 package net.raeen.aetheriusmod.social;
 
+import net.minecraft.server.level.ServerPlayer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
