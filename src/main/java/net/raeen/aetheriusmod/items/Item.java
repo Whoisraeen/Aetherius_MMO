@@ -3,14 +3,14 @@ package net.raeen.aetheriusmod.items;
 public class Item {
     private final String name;
     private final String description;
-    private final int rarity;
-    private final String itemType;
+    private final int power;
+    private int durability;
 
-    public Item(String name, String description, int rarity, String itemType) {
+    public Item(String name, String description, int power, int durability) {
         this.name = name;
         this.description = description;
-        this.rarity = rarity;
-        this.itemType = itemType;
+        this.power = power;
+        this.durability = durability;
     }
 
     public String getName() {
@@ -21,11 +21,22 @@ public class Item {
         return description;
     }
 
-    public int getRarity() {
-        return rarity;
+    public int getPower() {
+        return power;
     }
 
-    public String getItemType() {
-        return itemType;
+    public int getDurability() {
+        return durability;
+    }
+
+    public void decreaseDurability(int amount) {
+        this.durability -= amount;
+        if (this.durability < 0) {
+            this.durability = 0;
+        }
+    }
+
+    public void repair(int amount) {
+        this.durability += amount;
     }
 }

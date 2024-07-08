@@ -13,14 +13,10 @@ public class TradeSystem {
     }
 
     public void addTradeOffer(String playerName, Item item) {
-        tradeOffers.put(playerName, item);
-    }
-
-    public void removeTradeOffer(String playerName) {
-        tradeOffers.remove(playerName);
+        this.tradeOffers.put(playerName, item);
     }
 
     public Item getTradeOffer(String playerName) {
-        return tradeOffers.get(playerName);
+        return this.tradeOffers.get(playerName);
     }
 }

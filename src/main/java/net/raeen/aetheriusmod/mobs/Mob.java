@@ -2,15 +2,11 @@ package net.raeen.aetheriusmod.mobs;
 
 public class Mob {
     private final String name;
-    private final int health;
-    private final int attackDamage;
-    private final String biome;
+    private int health;
 
-    public Mob(String name, int health, int attackDamage, String biome) {
+    public Mob(String name, int health) {
         this.name = name;
         this.health = health;
-        this.attackDamage = attackDamage;
-        this.biome = biome;
     }
 
     public String getName() {
@@ -21,11 +17,10 @@ public class Mob {
         return health;
     }
 
-    public int getAttackDamage() {
-        return attackDamage;
-    }
-
-    public String getBiome() {
-        return biome;
+    public void takeDamage(int amount) {
+        this.health -= amount;
+        if (this.health < 0) {
+            this.health = 0;
+        }
     }
 }

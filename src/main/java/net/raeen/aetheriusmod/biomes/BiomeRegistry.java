@@ -1,6 +1,5 @@
 package net.raeen.aetheriusmod.biomes;
 
-import net.raeen.aetheriusmod.mobs.Mob;
 import net.raeen.aetheriusmod.mobs.MobRegistry;
 
 import java.util.ArrayList;
@@ -11,19 +10,22 @@ public class BiomeRegistry {
 
     public BiomeRegistry(MobRegistry mobRegistry) {
         this.biomes = new ArrayList<>();
-        initializeBiomes(mobRegistry);
+        // Register biomes and assign mobs
     }
 
-    private void initializeBiomes(MobRegistry mobRegistry) {
-        List<Mob> forestMobs = mobRegistry.getMobsByBiome("Forest");
-        List<Mob> mountainMobs = mobRegistry.getMobsByBiome("Mountain");
-
-        biomes.add(new Biome("Forest", forestMobs));
-        biomes.add(new Biome("Mountain", mountainMobs));
-        // Add more biomes
+    public void registerBiome(Biome biome) {
+        this.biomes.add(biome);
     }
 
     public List<Biome> getBiomes() {
         return biomes;
+    }
+
+    // Example biome
+    public class Forest extends Biome {
+        public Forest() {
+            super("Forest", new ArrayList<>());
+            // Add mobs to biome
+        }
     }
 }

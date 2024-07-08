@@ -2,20 +2,25 @@ package net.raeen.aetheriusmod;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.raeen.aetheriusmod.classes.CharacterClass;
+import net.raeen.aetheriusmod.classes.Mage;
 import net.raeen.aetheriusmod.commands.OpenEquipmentScreenCommand;
+import net.raeen.aetheriusmod.gui.TitleScreen;
 import net.raeen.aetheriusmod.races.Dwarf;
 import net.raeen.aetheriusmod.races.Elf;
+import net.raeen.aetheriusmod.races.Orc;
 import net.raeen.aetheriusmod.races.Race;
 import net.raeen.aetheriusmod.character.GameCharacter;
 import net.raeen.aetheriusmod.quests.*;
@@ -49,20 +54,35 @@ public class AetheriusMod {
     public AetheriusMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::clientSetup);
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    private void clientSetup(net.minecraftforge.eventbus.api.Event event) {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         LOGGER.info("HELLO FROM COMMON SETUP");
     }
 
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public static class ClientModEvents {
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        LOGGER.info("HELLO FROM CLIENT SETUP");
+        LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+        // Set the title screen
+        AetheriusMod.setScreen(new TitleScreen());
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
-        LOGGER.info("HELLO FROM CLIENT SETUP");
+    // Add this method to the AetheriusMod class
+    public static void setScreen(Screen screen) {
+        Minecraft.getInstance().setScreen(screen);
+    }
+}
+
+    private static void setScreen(TitleScreen titleScreen) {
     }
 
     @SubscribeEvent
@@ -81,14 +101,17 @@ public class AetheriusMod {
             // Define races
             Race elf = new Elf();
             Race dwarf = new Dwarf();
+            Race orc = new Orc();  // New race
 
             // Define classes
             CharacterClass ranger = new CharacterClass("Forest Ranger", new String[]{"Bow Mastery", "Stealth"});
             CharacterClass warrior = new CharacterClass("Warrior", new String[]{"Sword Mastery", "Shield Defense"});
+            CharacterClass mage = new Mage();  // New class
 
             // Create characters
             GameCharacter elfRanger = new GameCharacter("Legolas", elf, ranger, "Tall and slender with green eyes");
             GameCharacter dwarfWarrior = new GameCharacter("Gimli", dwarf, warrior, "Short and stout with a long beard");
+            GameCharacter orcMage = new GameCharacter("Thrall", orc, mage, "Tall and muscular with green skin");  // New character
 
             // Equip items
             Helmet helmet = new Helmet("Elf Helmet", "A helmet for elves", 3);

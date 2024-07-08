@@ -1,45 +1,57 @@
 package net.raeen.aetheriusmod.quests;
 
 import java.util.List;
+import java.util.Map;
 
 public class Quest {
-    private String name;
-    private String description;
-    private List<String> objectives;
-    private int experienceReward;
-    private List<String> itemRewards;
-    private int currencyReward;
+    private final String title;
+    private final String description;
+    private final List<String> objectives;
+    private final int rewardExperience;
+    private final List<String> rewards;
+    private final int difficulty;
+    private int currentStage;
+    private List<String> stages;
 
-    public Quest(String name, String description, List<String> objectives, int experienceReward, List<String> itemRewards, int currencyReward) {
-        this.name = name;
+    public Quest(String title, String description, List<String> objectives, int rewardExperience, List<String> rewards, int difficulty) {
+        this.title = title;
         this.description = description;
         this.objectives = objectives;
-        this.experienceReward = experienceReward;
-        this.itemRewards = itemRewards;
-        this.currencyReward = currencyReward;
+        this.rewardExperience = rewardExperience;
+        this.rewards = rewards;
+        this.difficulty = difficulty;
+        this.currentStage = 0;
     }
 
-    public String getName() {
-        return name;
+    public void advanceStage() {
+        if (currentStage < stages.size() - 1) {
+            currentStage++;
+        }
     }
 
-    public String getDescription() {
-        return description;
+    public String getCurrentObjective() {
+        return objectives.get(currentStage);
     }
 
-    public List<String> getObjectives() {
-        return objectives;
+    public int getRewardExperience() {
+        return rewardExperience;
     }
 
-    public int getExperienceReward() {
-        return experienceReward;
+    public List<String> getRewards() {
+        return rewards;
     }
 
-    public List<String> getItemRewards() {
-        return itemRewards;
+    public void setStages(List<String> stages) {
+        this.stages = stages;
     }
 
-    public int getCurrencyReward() {
-        return currencyReward;
+    public int getCurrentStage() {
+        return currentStage;
     }
+
+    public Map<Object, Object> getObjectives() {
+        return null;
+    }
+
+    // Getters and additional methods
 }

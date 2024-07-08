@@ -1,8 +1,6 @@
 package net.raeen.aetheriusmod.character;
 
 import net.raeen.aetheriusmod.classes.CharacterClass;
-import net.raeen.aetheriusmod.items.Item;
-import net.raeen.aetheriusmod.progression.Progression;
 import net.raeen.aetheriusmod.quests.Quest;
 import net.raeen.aetheriusmod.races.Race;
 
@@ -16,10 +14,10 @@ public class GameCharacter {
     private final Race race;
     private final CharacterClass characterClass;
     private final String appearance;
+    private final List<Quest> questLog;
     private final Map<String, Integer> attributes;
-    private final Progression progression;
-    private final List<Quest> activeQuests;
-    private final Map<String, Item> equipment;
+    private int level;
+    private int experience;
 
     public GameCharacter(String name, Race race, CharacterClass characterClass, String appearance) {
         this.name = name;
@@ -27,67 +25,50 @@ public class GameCharacter {
         this.characterClass = characterClass;
         this.appearance = appearance;
         this.attributes = new HashMap<>();
-        this.progression = new Progression();
-        this.activeQuests = new ArrayList<>();
-        this.equipment = new HashMap<>();
-
-        // Apply racial abilities
-        this.race.applyRacialAbilities(this);
-    }
-
-    public void setAttribute(String attribute, int value) {
-        attributes.put(attribute, value);
-    }
-
-    public int getAttribute(String attribute) {
-        return attributes.getOrDefault(attribute, 0);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Race getRace() {
-        return race;
-    }
-
-    public CharacterClass getCharacterClass() {
-        return characterClass;
-    }
-
-    public String getAppearance() {
-        return appearance;
-    }
-
-    public Map<String, Integer> getAttributes() {
-        return attributes;
-    }
-
-    public Progression getProgression() {
-        return progression;
-    }
-
-    public List<Quest> getActiveQuests() {
-        return activeQuests;
+        this.questLog = new ArrayList<>();
+        this.level = 1;
+        this.experience = 0;
     }
 
     public void acceptQuest(Quest quest) {
-        activeQuests.add(quest);
+        questLog.add(quest);
     }
 
     public void completeQuest(Quest quest) {
-        if (activeQuests.contains(quest)) {
-            activeQuests.remove(quest);
-            progression.gainExperience(quest.getExperienceReward());
-            // Additional code to handle item and currency rewards
+        this.experience += quest.getRewardExperience();
+        questLog.remove(quest);
+        levelUp();
+    }
+
+    private void levelUp() {
+        // Implement level up logic
+        while (this.experience >= experienceToNextLevel()) {
+            this.experience -= experienceToNextLevel();
+            this.level++;
         }
     }
 
-    public void equipItem(Item item) {
-        equipment.put(item.getItemType(), item);
+    private int experienceToNextLevel() {
+        return this.level * 100; // Example formula for next level experience requirement
     }
 
-    public Item getEquippedItem(String itemType) {
-        return equipment.get(itemType);
+    public void onDeath() {
+        // Implement experience loss on death
+        this.experience *= 0.9; // Lose 10% of current experience
     }
+public int getAttribute(String attribute) {
+    if (this.attributes.containsKey(attribute)) {
+        return this.attributes.get(attribute);
+    } else {
+        return 0; // Default value if attribute does not exist
+    }
+}
+
+    public void setAttribute(String health, int health1) {
+    }
+
+    public Object getName() {
+        return null;
+    }
+    // Getters and additional methods
 }

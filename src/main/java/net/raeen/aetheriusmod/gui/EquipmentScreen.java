@@ -33,10 +33,20 @@ public class EquipmentScreen extends Screen {
         // Add more slots as needed
     }
 
-    private String getItemName(String armor) {
-        // Add your logic to get the item name based on the armor type
-        // For example:
-        // return character.getEquipment().getItem(armor).getName();
-        return "";
+    private String getItemName(String slot) {
+        Item item = character.getEquippedItem(slot);
+        return item != null ? item.getName() : "None";
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground();
+        drawCenteredString(this.font, this.title.getString(), this.width / 2, 20, 16777215);
+        super.render(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

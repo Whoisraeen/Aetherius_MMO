@@ -6,29 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DungeonManager {
-    private final List<DungeonInstance> dungeons;
+    private final List<DungeonInstance> instances;
 
     public DungeonManager() {
-        this.dungeons = new ArrayList<>();
-        initializeDungeons();
+        this.instances = new ArrayList<>();
     }
 
-    private void initializeDungeons() {
-        dungeons.add(new DungeonInstance("Goblin Cave"));
-        dungeons.add(new DungeonInstance("Troll Den"));
-        // Add more dungeons
+    public DungeonInstance createDungeonInstance(String name, List<GameCharacter> participants) {
+        DungeonInstance instance = new DungeonInstance(name, participants);
+        instances.add(instance);
+        return instance;
     }
 
-    public DungeonInstance createDungeonInstance(String dungeonName, List<GameCharacter> participants) {
-        DungeonInstance newInstance = new DungeonInstance(dungeonName);
-        for (GameCharacter participant : participants) {
-            newInstance.addParticipant(participant);
-        }
-        dungeons.add(newInstance);
-        return newInstance;
-    }
-
-    public List<DungeonInstance> getDungeons() {
-        return dungeons;
+    public List<DungeonInstance> getInstances() {
+        return instances;
     }
 }

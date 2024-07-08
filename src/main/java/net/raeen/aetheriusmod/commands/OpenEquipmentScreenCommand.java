@@ -11,6 +11,7 @@ public class OpenEquipmentScreenCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("openequipment").executes(context -> {
             Player player = context.getSource().getPlayerOrException();
+            // Use the player variable or remove it if not needed
             // ...
             return 1;
         }));
