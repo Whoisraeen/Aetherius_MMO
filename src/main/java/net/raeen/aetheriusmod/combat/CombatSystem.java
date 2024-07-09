@@ -1,25 +1,22 @@
 package net.raeen.aetheriusmod.combat;
 
 import net.raeen.aetheriusmod.character.GameCharacter;
+import net.raeen.aetheriusmod.abilities.Ability;
 
 public class CombatSystem {
-    public static void attack(GameCharacter attacker, GameCharacter defender) {
-        int damage = attacker.getAttribute("Strength") - defender.getAttribute("Durability");
-        if (damage > 0) {
-            defender.setAttribute("Health", defender.getAttribute("Health") - damage);
-        }
+    public void applyStatusEffect(GameCharacter character, StatusEffect effect) {
+        // Apply the status effect
+        System.out.println("Applying " + effect.getName() + " to " + character.getName());
     }
 
-    public static void useSkill(GameCharacter user, String skill, GameCharacter target) {
-        if (skill.equals("Fireball")) {
-            int damage = user.getAttribute("Magic Proficiency") * 2;
-            target.setAttribute("Health", target.getAttribute("Health") - damage);
-            applyStatusEffect(target, new StatusEffect("Burning", "Damage Over Time", 5));
+    public void useAbility(GameCharacter character, String abilityName) {
+        Ability ability = character.getAbilities().get(abilityName);
+        if (ability != null) {
+            ability.activate();
+            // Logic to apply ability effects
+            System.out.println(character.getName() + " used " + ability.getName());
+        } else {
+            System.out.println("Ability " + abilityName + " not found for " + character.getName());
         }
-        // Add more skills
-    }
-
-    public static void applyStatusEffect(GameCharacter target, StatusEffect effect) {
-        // Handle the application of status effects
     }
 }

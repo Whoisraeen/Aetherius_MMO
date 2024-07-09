@@ -1,44 +1,42 @@
 package net.raeen.aetheriusmod.npc;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.raeen.aetheriusmod.quests.Quest;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 public class NPCManager {
-    private final Map<String, NPC> npcs = new HashMap<>();
-    NPCManager npcManager = new NPCManager();
-    NPC elvenNPC = new NPC(
-            "Elrond",
-            "Elf",
-            "Verdantra",
-            Arrays.asList("Welcome to Verdantra, traveler.", "May your journey be prosperous."),
-            Arrays.asList(mainQuest, sideQuest1, sideQuest2)
-    );
-    private Quest mainQuest;
+    private final Map<UUID, NPC> npcs = new HashMap<>();
 
-    NPCManager(elvenNPC);
-
-    public void addNPC(NPC npc) {
-        npcs.put(npc.getName(), npc);
+    public NPC createNPC(String name, Level level, VillagerType villagerType, BlockPos position) {
+        NPC npc = new NPC(name, villagerType, level);
+        npc.setPos(position.getX(), position.getY(), position.getZ());
+        npcs.put(npc.getUUID(), npc);
+        if (level instanceof ServerLevel) {
+            ((ServerLevel) level).addFreshEntity(npc);
+        }
+        return npc;
     }
 
-    public NPC getNPC(String name) {
-        return npcs.get(name);
+    public NPC getNPC(UUID id) {
+        return npcs.get(id);
     }
 
-    public List<NPC> getNPCsByCity(String city) {
-        return npcs.values().stream()
-                .filter(npc -> npc.getCity().equals(city))
-                .collect(Collectors.toList());
+    public void interactWithNPC(Player player, UUID npcId) {
+        NPC npc = getNPC(npcId);
+        if (npc != null) {
+            npc.interact(player);
+        }
     }
 
-    public void removeNPC(String name) {
-        npcs.remove(name);
+    public void assignQuestToNPC(UUID npcId, Quest quest) {
+        NPC npc = getNPC(npcId);
+        if (npc != null) {
+            npc.addQuest(quest);
+        }
     }
 }
-
-

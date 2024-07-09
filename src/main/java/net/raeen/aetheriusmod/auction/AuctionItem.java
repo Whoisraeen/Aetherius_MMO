@@ -5,41 +5,48 @@ import net.minecraft.world.item.ItemStack;
 import java.util.UUID;
 
 public class AuctionItem {
-    private UUID seller;
-    private ItemStack item;
-    private int startingBid;
-    private int highestBid;
+    private final UUID itemId;
+    private final ItemStack item;
+    private final UUID sellerId;
+    private double startingBid;
+    private double currentBid;
     private UUID highestBidder;
 
-    public AuctionItem(UUID seller, ItemStack item, int startingBid) {
-        this.seller = seller;
+    public AuctionItem(ItemStack item, UUID sellerId, double startingBid) {
+        this.itemId = UUID.randomUUID();
         this.item = item;
+        this.sellerId = sellerId;
         this.startingBid = startingBid;
-        this.highestBid = startingBid;
+        this.currentBid = startingBid;
+        this.highestBidder = null;
     }
 
-    public UUID getSeller() {
-        return seller;
+    public UUID getItemId() {
+        return itemId;
     }
 
     public ItemStack getItem() {
         return item;
     }
 
-    public int getStartingBid() {
+    public UUID getSellerId() {
+        return sellerId;
+    }
+
+    public double getStartingBid() {
         return startingBid;
     }
 
-    public int getHighestBid() {
-        return highestBid;
-    }
-
-    public void setHighestBid(int highestBid, UUID bidder) {
-        this.highestBid = highestBid;
-        this.highestBidder = bidder;
+    public double getCurrentBid() {
+        return currentBid;
     }
 
     public UUID getHighestBidder() {
         return highestBidder;
+    }
+
+    public void setCurrentBid(double currentBid, UUID highestBidder) {
+        this.currentBid = currentBid;
+        this.highestBidder = highestBidder;
     }
 }

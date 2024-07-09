@@ -4,21 +4,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SkillTree {
-    private final Map<Integer, String[]> skillsPerLevel;
+    private final Map<String, Skill> skills;
 
     public SkillTree() {
-        this.skillsPerLevel = new HashMap<>();
-        initializeSkills();
+        this.skills = new HashMap<>();
     }
 
-    private void initializeSkills() {
-        skillsPerLevel.put(5, new String[]{"Skill A"});
-        skillsPerLevel.put(10, new String[]{"Skill B"});
-        skillsPerLevel.put(15, new String[]{"Skill C"});
-        // Add more levels and skills as needed
+    public void addSkill(Skill skill) {
+        skills.put(skill.getName(), skill);
     }
 
-    public String[] getSkillsForLevel(int level) {
-        return skillsPerLevel.getOrDefault(level, new String[]{});
+    public Skill getSkill(String name) {
+        return skills.get(name);
+    }
+
+    public Map<String, Skill> getSkills() {
+        return skills;
+    }
+
+    public void upgradeSkill(String name) {
+        Skill skill = skills.get(name);
+        if (skill != null) {
+            skill.upgrade();
+        }
     }
 }

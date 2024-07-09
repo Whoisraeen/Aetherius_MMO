@@ -5,22 +5,15 @@ import net.raeen.aetheriusmod.character.GameCharacter;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class Race {
-    private final String name;
-    private final List<String> traits;
+public class Races {
+    public static final Map<String, Race> races = new HashMap<>();
 
-    public Race(String name, String[] traits) {
-        this.name = name;
-        this.traits = Arrays.asList(traits);
+    static {
+        races.put("Aelorian", new Race("Aelorian", new String[]{"Arcane Mastery", "Ancient Wisdom"}));
+        races.put("Lycan", new Race("Lycan", new String[]{"Feral Strength", "Enhanced Senses"}));
+        races.put("Celestial", new Race("Celestial", new String[]{"Divine Light", "Healing Touch"}));
+        races.put("Aquafae", new Race("Aquafae", new String[]{"Water Manipulation", "Aquatic Adaptation"}));
+        races.put("Terran", new Race("Terran", new String[]{"Earth Mastery", "Stone Skin"}));
+        races.put("Umbral", new Race("Umbral", new String[]{"Shadow Manipulation", "Night Vision"}));
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getTraits() {
-        return traits;
-    }
-
-    public abstract void applyRacialAbilities(GameCharacter character);
 }

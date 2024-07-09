@@ -1,20 +1,27 @@
 package net.raeen.aetheriusmod.economy;
 
-import java.util.Map;
+import java.util.UUID;
 
 public class EconomyManager {
-    private Map<String, Integer> playerBalances;
+    private final Economy economy = new Economy();
 
-    public void addPlayer(String playerName) {
-        playerBalances.put(playerName, 0);
+    public void createAccount(UUID playerId) {
+        economy.createAccount(playerId);
     }
 
-    public void updateBalance(String playerName, int amount) {
-        int balance = playerBalances.get(playerName) + amount;
-        playerBalances.put(playerName, balance);
+    public double getBalance(UUID playerId) {
+        return economy.getBalance(playerId);
     }
 
-    public int getBalance(String playerName) {
-        return playerBalances.get(playerName);
+    public void deposit(UUID playerId, double amount) {
+        economy.deposit(playerId, amount);
+    }
+
+    public void withdraw(UUID playerId, double amount) {
+        economy.withdraw(playerId, amount);
+    }
+
+    public void transfer(UUID fromPlayerId, UUID toPlayerId, double amount) {
+        economy.transfer(fromPlayerId, toPlayerId, amount);
     }
 }
