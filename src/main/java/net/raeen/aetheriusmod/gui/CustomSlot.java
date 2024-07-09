@@ -1,5 +1,6 @@
 package net.raeen.aetheriusmod.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.renderer.GameRenderer;
@@ -14,7 +15,7 @@ public class CustomSlot extends AbstractWidget {
     }
 
     @Override
-    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+    public <PoseStack> void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, SLOT_TEXTURE);
         RenderSystem.enableBlend();
@@ -23,6 +24,9 @@ public class CustomSlot extends AbstractWidget {
         RenderSystem.disableBlend();
 
         // Render item in slot if any
+    }
+
+    private <PoseStack> void blit(PoseStack poseStack, int x, int y, int i, int i1, int width, int height, int width1, int height1) {
     }
 
     @Override
