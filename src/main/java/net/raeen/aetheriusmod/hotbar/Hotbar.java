@@ -14,6 +14,10 @@ public class Hotbar {
         this.items = items;
     }
 
+    public Hotbar() {
+
+    }
+
     public List<ItemStack> getItems() {
         return items;
     }

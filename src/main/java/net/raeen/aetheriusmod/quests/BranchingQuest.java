@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BranchingQuest extends Quest {
-    private final List<QuestObjective> objectives;
+    private final List<QuestObjective> questObjectives;
     private final List<BranchingQuest> nextBranches;
 
-    public BranchingQuest(String name, String description, int reward) {
-        super(name, description, reward);
-        this.objectives = new ArrayList<>();
+    public BranchingQuest(String name, String description, List<String> objectives, int rewardExperience, List<String> rewards, int difficulty) {
+        super(name, description, objectives, rewardExperience, rewards, difficulty);
+        this.questObjectives = new ArrayList<>();
         this.nextBranches = new ArrayList<>();
     }
 
     public void addObjective(QuestObjective objective) {
-        objectives.add(objective);
+        questObjectives.add(objective);
     }
 
-    public List<QuestObjective> getObjectives() {
-        return objectives;
+    public List<QuestObjective> getQuestObjectives() {
+        return questObjectives;
     }
 
     public void addBranch(BranchingQuest quest) {
@@ -30,7 +30,7 @@ public class BranchingQuest extends Quest {
     }
 
     public boolean areAllObjectivesCompleted() {
-        for (QuestObjective objective : objectives) {
+        for (QuestObjective objective : questObjectives) {
             if (!objective.isCompleted()) {
                 return false;
             }

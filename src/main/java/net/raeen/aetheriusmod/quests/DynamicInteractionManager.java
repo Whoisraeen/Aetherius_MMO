@@ -1,6 +1,7 @@
 package net.raeen.aetheriusmod.quests;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.raeen.aetheriusmod.npc.NPC;
 
 public class DynamicInteractionManager {
     private final QuestManager questManager;

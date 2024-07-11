@@ -1,8 +1,8 @@
 package net.raeen.aetheriusmod.abilities;
 
 public class Ability {
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
 
     public Ability(String name, String description) {
         this.name = name;
@@ -19,6 +19,6 @@ public class Ability {
 
     public void activate() {
         // Logic for activating the ability
-        System.out.println("Activating ability: " + name);
+        System.out.println(name + " ability activated!");
     }
 }

@@ -4,13 +4,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.raeen.aetheriusmod.gui.HousingCustomizationScreen;
 
 import java.util.UUID;
 
 public class DecorationManager {
-    private final HousingCustomization housingCustomization;
+    private final HousingCustomizationScreen housingCustomization;
 
-    public DecorationManager(HousingCustomization housingCustomization) {
+    public DecorationManager(HousingCustomizationScreen housingCustomization) {
         this.housingCustomization = housingCustomization;
     }
 

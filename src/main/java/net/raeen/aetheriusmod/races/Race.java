@@ -1,11 +1,25 @@
 package net.raeen.aetheriusmod.races;
 
-import net.raeen.aetheriusmod.character.GameCharacter;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.Arrays;
-import java.util.List;
+public class Race {
+    private final String name;
+    private final String[] abilities;
 
-public class Races {
+    public Race(String name, String[] abilities) {
+        this.name = name;
+        this.abilities = abilities;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String[] getAbilities() {
+        return abilities;
+    }
+
     public static final Map<String, Race> races = new HashMap<>();
 
     static {

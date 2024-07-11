@@ -15,7 +15,7 @@ public class QuestManager {
     }
 
     public void completeQuest(ServerPlayer player, Quest quest) {
-        activeQuests.remove(player.getUUID(), quest);
+        activeQuests.remove(player.getUUID());
         completedQuests.put(player.getUUID(), quest);
     }
 
@@ -31,7 +31,7 @@ public class QuestManager {
         Quest quest = activeQuests.get(player.getUUID());
         if (quest instanceof BranchingQuest) {
             BranchingQuest branchingQuest = (BranchingQuest) quest;
-            if (branchingQuest.getObjectives().contains(objective)) {
+            if (branchingQuest.getQuestObjectives().contains(objective)) {
                 objective.complete();
                 if (branchingQuest.areAllObjectivesCompleted()) {
                     completeQuest(player, branchingQuest);

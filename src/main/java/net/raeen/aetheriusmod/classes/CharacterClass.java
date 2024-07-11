@@ -1,66 +1,27 @@
-package net.raeen.aetheriusmod.character;
+package net.raeen.aetheriusmod.classes;
 
-import net.raeen.aetheriusmod.classes.CharacterClass;
-import net.raeen.aetheriusmod.races.Race;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-public class GameCharacter {
-    private String name;
-    private Race race;
-    private CharacterClass characterClass;
-    private String appearance;
-    private Map<String, Integer> attributes;
-    private Map<String, String> abilities;
+public class CharacterClass {
+    private final String name;
+    private final List<String> skills;
 
-    public GameCharacter(String name, Race race, CharacterClass characterClass, String appearance) {
+    public CharacterClass(String name, List<String> skills) {
         this.name = name;
-        this.race = race;
-        this.characterClass = characterClass;
-        this.appearance = appearance;
-        this.attributes = new HashMap<>();
-        this.abilities = new HashMap<>();
+        this.skills = skills;
     }
 
     public String getName() {
         return name;
     }
 
-    public Race getRace() {
-        return race;
+    public List<String> getSkills() {
+        return skills;
     }
 
-    public CharacterClass getCharacterClass() {
-        return characterClass;
-    }
-
-    public String getAppearance() {
-        return appearance;
-    }
-
-    public Map<String, Integer> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttribute(String key, int value) {
-        attributes.put(key, value);
-    }
-
-    public Map<String, String> getAbilities() {
-        return abilities;
-    }
-
-    public void setAbility(String key, String value) {
-        abilities.put(key, value);
-    }
-
-    public void displayCharacterInfo() {
-        // Print character details
-        System.out.println("Character: " + name);
-        System.out.println("Race: " + race.getName());
-        System.out.println("Class: " + characterClass.getName());
-        System.out.println("Appearance: " + appearance);
-        System.out.println("Attributes: " + attributes);
-        System.out.println("Abilities: " + abilities);
+    public void displayClassInfo() {
+        // Print class details
+        System.out.println("Class: " + name);
+        System.out.println("Skills: " + skills);
     }
 }

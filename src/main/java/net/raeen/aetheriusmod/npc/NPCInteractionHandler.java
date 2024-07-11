@@ -1,5 +1,10 @@
 package net.raeen.aetheriusmod.npc;
 
+import net.minecraft.server.level.ServerPlayer;
+import net.raeen.aetheriusmod.quests.Quest;
+
+import java.awt.*;
+
 public class NPCInteractionHandler {
     public void interactWithNPC(ServerPlayer player, NPC npc) {
         // Display dialogues

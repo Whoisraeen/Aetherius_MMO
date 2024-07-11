@@ -1,11 +1,13 @@
 package net.raeen.aetheriusmod.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.BlockPosArgument;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.commands.arguments.blocks.BlockStateArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.raeen.aetheriusmod.housing.HouseManager;
@@ -34,7 +36,7 @@ public class HouseCommands {
                                             String blockName = StringArgumentType.getString(context, "block");
                                             ServerPlayer player = context.getSource().getPlayerOrException();
 
-                                            BlockState blockState = BlockStateArgument.getBlockState(context, "block");
+                                            BlockState blockState = BlockStateArgument.getBlock(context, "block").getState();
                                             houseManager.customizeHouse(player.getUUID(), location, blockState);
 
                                             context.getSource().sendSuccess(Component.literal("House customized!"), true);

@@ -1,10 +1,9 @@
 package net.raeen.aetheriusmod.gui;
 
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.raeen.aetheriusmod.character.GameCharacter;
+import net.raeen.aetheriusmod.classes.GameCharacter;
 import net.raeen.aetheriusmod.items.Item;
 
 public class EquipmentScreen extends Screen {

@@ -1,6 +1,6 @@
 package net.raeen.aetheriusmod.quests;
 
-import net.raeen.aetheriusmod.character.GameCharacter;
+import net.raeen.aetheriusmod.classes.GameCharacter;
 
 import java.util.List;
 

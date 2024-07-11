@@ -5,7 +5,11 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.raeen.aetheriusmod.auction.AuctionHouse;
 import net.raeen.aetheriusmod.auction.AuctionItem;
 import net.raeen.aetheriusmod.economy.Economy;
@@ -66,6 +70,14 @@ public class AuctionHouseCommands {
 
     private static ItemStack getItemStackByName(String name) {
         // Example method to retrieve an ItemStack by its name
-        return new ItemStack(Items.DIAMOND); // Placeholder
+        switch (name.toLowerCase()) {
+            case "diamond":
+                return new ItemStack(Items.DIAMOND);
+            case "gold_ingot":
+                return new ItemStack(Items.GOLD_INGOT);
+            // Add more items as needed
+            default:
+                return null;
+        }
     }
 }

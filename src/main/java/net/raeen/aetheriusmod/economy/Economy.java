@@ -31,4 +31,16 @@ public class Economy {
             deposit(toPlayerId, amount);
         }
     }
+
+    public boolean deductBalance(UUID playerId, double amount) {
+        if (getBalance(playerId) >= amount) {
+            withdraw(playerId, amount);
+            return true;
+        }
+        return false;
+    }
+
+    public void updateBalance(UUID playerId, double amount) {
+        deposit(playerId, amount);
+    }
 }

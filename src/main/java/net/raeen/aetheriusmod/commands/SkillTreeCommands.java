@@ -1,9 +1,11 @@
 package net.raeen.aetheriusmod.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.raeen.aetheriusmod.skills.Skill;
 import net.raeen.aetheriusmod.skills.SkillTreeManager;
@@ -40,6 +42,6 @@ public class SkillTreeCommands {
                                     skillTreeManager.levelUpSkill(player.getUUID(), name);
                                     context.getSource().sendSuccess(Component.literal("Skill leveled up!"), true);
                                     return 1;
-                                }))));
+                                })));
     }
 }

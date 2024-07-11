@@ -1,5 +1,6 @@
 package net.raeen.aetheriusmod.combat;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -11,24 +12,24 @@ public class CombatManager {
     private final Map<UUID, Integer> cooldowns = new HashMap<>();
 
     public void performSpecialAttack(ServerPlayer player, CombatSkill skill, LivingEntity target) {
-        if (!isOnCooldown(player.getUUID(), skill)) {
-            skill.use();
-            target.hurt(DamageSource.playerAttack(player), skill.getDamage());
-            setCooldown(player.getUUID(), skill);
-        } else {
-            player.sendMessage(Component.literal("Skill is on cooldown"), Util.NIL_UUID);
-        }
+    if (!isOnCooldown(player.getUUID(), skill)) {
+        skill.use();
+        target.hurt(CustomDamageSource.playerAttack(player.level(), player), skill.getDamage());
+        setCooldown(player.getUUID(), skill);
+    } else {
+        player.sendSystemMessage(Component.literal("Skill is on cooldown"), false);
     }
+}
 
     public void blockAttack(ServerPlayer player) {
-        // Logic for blocking an attack
-        player.sendMessage(Component.literal("Blocking attack"), Util.NIL_UUID);
-    }
+    // Logic for blocking an attack
+    player.sendSystemMessage(Component.literal("Blocking attack"), false);
+}
 
     public void dodgeAttack(ServerPlayer player) {
-        // Logic for dodging an attack
-        player.sendMessage(Component.literal("Dodging attack"), Util.NIL_UUID);
-    }
+    // Logic for dodging an attack
+    player.sendSystemMessage(Component.literal("Dodging attack"), false);
+}
 
     public void applyStatusEffect(LivingEntity target, StatusEffect effect) {
         effect.applyEffect();

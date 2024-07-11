@@ -1,7 +1,5 @@
-package net.raeen.aetheriusmod.character;
+package net.raeen.aetheriusmod.classes;
 
-import net.raeen.aetheriusmod.abilities.Ability;
-import net.raeen.aetheriusmod.attributes.Attributes;
 import net.raeen.aetheriusmod.classes.CharacterClass;
 import net.raeen.aetheriusmod.races.Race;
 
@@ -13,15 +11,15 @@ public class GameCharacter {
     private Race race;
     private CharacterClass characterClass;
     private String appearance;
-    private Attributes attributes;
-    private Map<String, Ability> abilities;
+    private Map<String, Integer> attributes;
+    private Map<String, String> abilities;
 
     public GameCharacter(String name, Race race, CharacterClass characterClass, String appearance) {
         this.name = name;
         this.race = race;
         this.characterClass = characterClass;
         this.appearance = appearance;
-        this.attributes = new Attributes();
+        this.attributes = new HashMap<>();
         this.abilities = new HashMap<>();
     }
 
@@ -41,16 +39,20 @@ public class GameCharacter {
         return appearance;
     }
 
-    public Attributes getAttributes() {
+    public Map<String, Integer> getAttributes() {
         return attributes;
     }
 
-    public void addAbility(Ability ability) {
-        abilities.put(ability.getName(), ability);
+    public void setAttribute(String key, int value) {
+        attributes.put(key, value);
     }
 
-    public Map<String, Ability> getAbilities() {
+    public Map<String, String> getAbilities() {
         return abilities;
+    }
+
+    public void setAbility(String key, String value) {
+        abilities.put(key, value);
     }
 
     public void displayCharacterInfo() {
@@ -59,8 +61,7 @@ public class GameCharacter {
         System.out.println("Race: " + race.getName());
         System.out.println("Class: " + characterClass.getName());
         System.out.println("Appearance: " + appearance);
-        System.out.println("Attributes: " + attributes.getAllAttributes());
-        System.out.println("Abilities: ");
-        abilities.values().forEach(ability -> System.out.println(" - " + ability.getName() + ": " + ability.getDescription()));
+        System.out.println("Attributes: " + attributes);
+        System.out.println("Abilities: " + abilities);
     }
 }

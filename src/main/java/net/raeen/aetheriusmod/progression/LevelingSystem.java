@@ -27,4 +27,8 @@ public class LevelingSystem {
     public PlayerProgression getPlayerProgression(ServerPlayer player) {
         return playerProgressions.get(player.getUUID());
     }
+
+    public Map<UUID, PlayerProgression> getPlayerProgressions() {
+        return null;
+    }
 }

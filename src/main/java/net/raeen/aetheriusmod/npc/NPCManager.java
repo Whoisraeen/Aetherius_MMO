@@ -1,6 +1,8 @@
 package net.raeen.aetheriusmod.npc;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.raeen.aetheriusmod.quests.Quest;
@@ -38,5 +40,9 @@ public class NPCManager {
         if (npc != null) {
             npc.addQuest(quest);
         }
+    }
+
+    public NPC getNPCByName(String npcName) {
+        return null;
     }
 }

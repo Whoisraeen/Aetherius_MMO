@@ -15,10 +15,24 @@ public class PetManager {
         pets.put(playerId, pet);
     }
 
-    public void levelUpPet(UUID playerId) {
-        Pet pet = pets.get(playerId);
-        if (pet != null) {
-            pet.levelUp();
+
+public class Pet {
+    private String name;
+    private int level;
+    private int maxLevel;
+
+    public Pet(String name, int maxLevel) {
+        this.name = name;
+        this.level = 1;
+        this.maxLevel = maxLevel;
+    }
+
+    public void levelUp() {
+        if (level < maxLevel) {
+            level++;
         }
     }
+
+    // Other methods...
+}
 }

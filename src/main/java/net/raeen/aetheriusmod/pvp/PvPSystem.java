@@ -1,6 +1,6 @@
 package net.raeen.aetheriusmod.pvp;
 
-import net.raeen.aetheriusmod.character.GameCharacter;
+import net.raeen.aetheriusmod.classes.GameCharacter;
 
 public class PvPSystem {
     public static void initiateDuel(GameCharacter challenger, GameCharacter opponent) {

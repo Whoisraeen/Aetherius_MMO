@@ -19,4 +19,7 @@ public class Interaction {
         return response;
     }
 
-    public
+    public void execute(ServerPlayer player) {
+        response.execute(player);
+    }
+}

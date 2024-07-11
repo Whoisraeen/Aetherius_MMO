@@ -1,8 +1,11 @@
 package net.raeen.aetheriusmod.gui;
 
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.raeen.aetheriusmod.housing.Decoration;
+import net.raeen.aetheriusmod.housing.Furniture;
 import net.raeen.aetheriusmod.housing.FurnitureManager;
 import net.raeen.aetheriusmod.housing.DecorationManager;
 
@@ -36,9 +39,13 @@ public class HousingCustomizationScreen extends Screen {
     }
 
     @Override
-    public void renderBackground() {
-        this.renderBackgroundTexture(0);
-    }
+public void renderBackground() {
+    this.renderBackgroundTexture(0);
+}
+
+private void renderBackgroundTexture(int i) {
+    // Implement the logic to render the background texture
+}
 
     private void renderBackgroundTexture(int i) {
     }
@@ -57,5 +64,12 @@ public class HousingCustomizationScreen extends Screen {
     @Override
     public boolean isPauseScreen() {
         return false;
+    }
+
+    public void addDecoration(Decoration decoration) {
+    }
+
+    public void addFurniture(Furniture furniture) {
+
     }
 }

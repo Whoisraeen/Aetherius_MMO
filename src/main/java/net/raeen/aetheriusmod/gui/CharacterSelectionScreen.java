@@ -4,9 +4,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.raeen.aetheriusmod.character.GameCharacter;
-import net.raeen.aetheriusmod.races.Elf;
-import net.raeen.aetheriusmod.races.Dwarf;
+import net.raeen.aetheriusmod.classes.GameCharacter;
 
 public class CharacterSelectionScreen extends Screen {
     private GameCharacter selectedCharacter;
