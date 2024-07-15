@@ -2,6 +2,14 @@ package net.raeen.aetheriusmod;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -37,6 +45,7 @@ import net.raeen.aetheriusmod.pvp.*;
 import org.slf4j.Logger;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Mod(AetheriusMod.MODID)
@@ -55,7 +64,7 @@ public class AetheriusMod {
     private final CombatManager combatManager = new CombatManager();
     private final StatusEffectManager statusEffectManager = new StatusEffectManager();
     private final DungeonManager dungeonManager = new DungeonManager();
-    private final DungeonMechanics dungeonMechanics = new DungeonMechanics();
+    private final DungeonInstance dungeonMechanics = new DungeonInstance();
     private final NPCManager npcManager = new NPCManager();
     private final QuestAssignment questAssignment = new QuestAssignment(questManager, npcManager);
     private final EventScheduler eventScheduler = new EventScheduler(eventManager);

@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 public class Decoration {
     private final String name;
     private final ItemStack item;
-    private final BlockPos position;
+    private BlockPos position; // Remove final if you intend to modify
 
     public Decoration(String name, ItemStack item, BlockPos position) {
         this.name = name;

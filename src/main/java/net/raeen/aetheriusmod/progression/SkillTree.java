@@ -28,4 +28,8 @@ public class SkillTree {
             skill.upgrade();
         }
     }
+
+    public String[] getSkillsForLevel(int level) {
+        return null;
+    }
 }

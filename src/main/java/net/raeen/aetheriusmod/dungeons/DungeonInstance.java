@@ -5,8 +5,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DungeonInstance {
+    private final UUID instanceId;
     private final String name;
     private final ServerLevel world;
     private final BlockPos entryPoint;
@@ -14,6 +16,7 @@ public class DungeonInstance {
     private final DungeonFloor[] floors;
 
     public DungeonInstance(String name, ServerLevel world, BlockPos entryPoint, List<Player> players, DungeonFloor[] floors) {
+        this.instanceId = UUID.randomUUID();
         this.name = name;
         this.world = world;
         this.entryPoint = entryPoint;
@@ -21,22 +24,27 @@ public class DungeonInstance {
         this.floors = floors;
     }
 
+    public UUID getInstanceId() {
+        return instanceId;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public ServerLevel getWorld() {
+        return world;
+    }
+
+    public BlockPos getEntryPoint() {
+        return entryPoint;
     }
 
     public List<Player> getPlayers() {
         return players;
     }
 
-    public void start() {
-        // Logic to transport players to the dungeon entry point
-        for (Player player : players) {
-            player.teleportTo(entryPoint.getX(), entryPoint.getY(), entryPoint.getZ());
-        }
-        // Generate the dungeon floors
-        for (DungeonFloor floor : floors) {
-            floor.generate(world);
-        }
+    public DungeonFloor[] getFloors() {
+        return floors;
     }
 }

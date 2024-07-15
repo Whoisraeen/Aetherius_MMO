@@ -6,9 +6,15 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DungeonManager {
+    private final List<Dungeon> registeredDungeons = new ArrayList<>();
     private final List<DungeonInstance> activeDungeons = new ArrayList<>();
+
+    public void registerDungeon(Dungeon dungeon) {
+        registeredDungeons.add(dungeon);
+    }
 
     public DungeonInstance createInstance(String name, ServerLevel world, List<Player> players) {
         BlockPos entryPoint = new BlockPos(200, 64, 200);
@@ -29,5 +35,14 @@ public class DungeonManager {
 
     public List<DungeonInstance> getActiveDungeons() {
         return activeDungeons;
+    }
+
+    public DungeonInstance getInstance(UUID instanceId) {
+        for (DungeonInstance instance : activeDungeons) {
+            if (instance.getInstanceId().equals(instanceId)) {
+                return instance;
+            }
+        }
+        return null;
     }
 }

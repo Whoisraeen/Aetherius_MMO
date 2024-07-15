@@ -42,4 +42,7 @@ public class QuestManager {
             }
         }
     }
+
+    public void assignDailyQuest(ServerPlayer player, DailyQuest quest) {
+    }
 }

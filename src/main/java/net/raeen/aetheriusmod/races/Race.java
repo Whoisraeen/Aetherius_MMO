@@ -1,9 +1,11 @@
 package net.raeen.aetheriusmod.races;
 
+import net.raeen.aetheriusmod.classes.GameCharacter;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class Race {
+public abstract class Race {
     private final String name;
     private final String[] abilities;
 
@@ -30,4 +32,6 @@ public class Race {
         races.put("Terran", new Race("Terran", new String[]{"Earth Mastery", "Stone Skin"}));
         races.put("Umbral", new Race("Umbral", new String[]{"Shadow Manipulation", "Night Vision"}));
     }
+
+    public abstract void applyRacialAbilities(GameCharacter character);
 }

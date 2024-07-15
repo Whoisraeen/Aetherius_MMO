@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.raeen.aetheriusmod.combat.CombatManager;
 import net.raeen.aetheriusmod.combat.CombatSkill;
@@ -22,21 +23,21 @@ public class CombatCommands {
                                     CombatSkill skill = new CombatSkill(skillName, "A special attack", 10, 5);
                                     combatManager.performSpecialAttack(player, skill, null); // Example usage
 
-                                    context.getSource().sendSuccess(Component.literal("Performed special attack!"), true);
+                                    context.getSource().sendSuccess(() -> Component.literal("Performed special attack!"), true);
                                     return 1;
                                 })))
                 .then(Commands.literal("block")
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
                             combatManager.blockAttack(player);
-                            context.getSource().sendSuccess(Component.literal("Blocking attack!"), true);
+                            context.getSource().sendSuccess(() -> Component.literal("Blocking attack!"), true);
                             return 1;
                         }))
                 .then(Commands.literal("dodge")
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
                             combatManager.dodgeAttack(player);
-                            context.getSource().sendSuccess(Component.literal("Dodging attack!"), true);
+                            context.getSource().sendSuccess(() -> Component.literal("Dodging attack!"), true);
                             return 1;
                         })));
     }

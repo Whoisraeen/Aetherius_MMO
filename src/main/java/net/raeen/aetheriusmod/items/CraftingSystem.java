@@ -20,7 +20,6 @@ public class CraftingSystem {
     public Item craftItem(String itemName, String[] materials) {
         if (recipes.containsKey(itemName)) {
             String[] requiredMaterials = recipes.get(itemName);
-            // Check if materials match and craft item
             boolean canCraft = true;
             for (String material : requiredMaterials) {
                 boolean found = false;
@@ -37,7 +36,7 @@ public class CraftingSystem {
             }
             if (canCraft) {
                 // Craft the item
-                return new Item(itemName, "Crafted " + itemName, 1, "Crafted Item");
+                return new Item(itemName, "Crafted " + itemName, 1);
             }
         }
         return null;

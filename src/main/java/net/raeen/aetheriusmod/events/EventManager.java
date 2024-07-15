@@ -35,4 +35,8 @@ public class EventManager {
             player.giveExperiencePoints(100);
         }
     }
+
+    public void checkAndEndEvents(long currentTime) {
+
+    }
 }

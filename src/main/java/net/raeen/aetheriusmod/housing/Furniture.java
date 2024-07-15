@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 public class Furniture {
     private final String name;
     private final ItemStack item;
-    private final BlockPos position;
+    private BlockPos position;
 
     public Furniture(String name, ItemStack item, BlockPos position) {
         this.name = name;
@@ -28,5 +28,10 @@ public class Furniture {
 
     public void setPosition(BlockPos position) {
         this.position = position;
+    }
+
+    // Example of using the setPosition method
+    public void moveFurniture(BlockPos newPosition) {
+        this.setPosition(newPosition);
     }
 }

@@ -1,8 +1,10 @@
 package net.raeen.aetheriusmod.multiplayer;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-
-import java.util.UUID;
+import net.raeen.aetheriusmod.multiplayer.ChatChannel;
+import net.raeen.aetheriusmod.multiplayer.ChatMessage;
+import net.raeen.aetheriusmod.multiplayer.ChatSystem;
 
 public class ChatSystemManager {
     private final ChatSystem chatSystem = new ChatSystem();
@@ -14,7 +16,7 @@ public class ChatSystemManager {
 
     public void displayMessages(ServerPlayer player, ChatChannel channel) {
         for (ChatMessage message : chatSystem.getMessagesByChannel(channel)) {
-            player.sendMessage(Component.literal(message.getMessage()));
+            player.sendSystemMessage(Component.literal(message.getMessage()), false);
         }
     }
 }

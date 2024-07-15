@@ -1,6 +1,5 @@
 package net.raeen.aetheriusmod.classes;
 
-import net.raeen.aetheriusmod.classes.CharacterClass;
 import net.raeen.aetheriusmod.races.Race;
 
 import java.util.HashMap;
@@ -63,5 +62,9 @@ public class GameCharacter {
         System.out.println("Appearance: " + appearance);
         System.out.println("Attributes: " + attributes);
         System.out.println("Abilities: " + abilities);
+    }
+
+    public int getAttribute(String key) {
+        return attributes.getOrDefault(key, 0);
     }
 }

@@ -19,7 +19,7 @@ public class NPCManager {
         npc.setPos(position.getX(), position.getY(), position.getZ());
         npcs.put(npc.getUUID(), npc);
         if (level instanceof ServerLevel) {
-            ((ServerLevel) level).addFreshEntity(npc);
+            ((ServerLevel) level).addFreshEntity(npc); // Ensure NPC extends Entity in Minecraft
         }
         return npc;
     }
@@ -43,6 +43,11 @@ public class NPCManager {
     }
 
     public NPC getNPCByName(String npcName) {
+        for (NPC npc : npcs.values()) {
+            if (npc.getName().equals(npcName)) {
+                return npc;
+            }
+        }
         return null;
     }
 }

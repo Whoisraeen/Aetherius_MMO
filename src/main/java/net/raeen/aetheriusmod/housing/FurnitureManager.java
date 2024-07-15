@@ -2,11 +2,9 @@ package net.raeen.aetheriusmod.housing;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.raeen.aetheriusmod.gui.HousingCustomizationScreen;
-
-import java.util.UUID;
 
 public class FurnitureManager {
     private final HousingCustomizationScreen housingCustomization;
@@ -15,19 +13,22 @@ public class FurnitureManager {
         this.housingCustomization = housingCustomization;
     }
 
-    public void placeFurniture(Player player, BlockPos pos, ItemStack item) {
+    public void placeFurniture(ServerPlayer player, BlockPos pos, ItemStack item) {
         Furniture furniture = new Furniture(item.getDisplayName().getString(), item, pos);
         housingCustomization.addFurniture(furniture);
-        housingCustomization.placeItem(player, player.getLevel(), pos, item);
+        ServerLevel serverLevel = player.serverLevel(); // Get the player's current level
+        housingCustomization.placeItem(player, serverLevel, pos, item);
     }
 
-    public void removeFurniture(Player player, BlockPos pos) {
+    public void removeFurniture(ServerPlayer player, BlockPos pos) {
         Furniture furniture = housingCustomization.getFurnitureList().stream()
                 .filter(f -> f.getPosition().equals(pos))
                 .findFirst().orElse(null);
         if (furniture != null) {
             housingCustomization.removeFurniture(furniture);
-            housingCustomization.removeItem(player, player.getLevel(), pos);
+            ServerLevel serverLevel = player.serverLevel(); // Get the player's current level
+            housingCustomization.removeItem(player, serverLevel, pos);
         }
     }
 }
+
