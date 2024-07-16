@@ -25,12 +25,42 @@ public abstract class Race {
     public static final Map<String, Race> races = new HashMap<>();
 
     static {
-        races.put("Aelorian", new Race("Aelorian", new String[]{"Arcane Mastery", "Ancient Wisdom"}));
-        races.put("Lycan", new Race("Lycan", new String[]{"Feral Strength", "Enhanced Senses"}));
-        races.put("Celestial", new Race("Celestial", new String[]{"Divine Light", "Healing Touch"}));
-        races.put("Aquafae", new Race("Aquafae", new String[]{"Water Manipulation", "Aquatic Adaptation"}));
-        races.put("Terran", new Race("Terran", new String[]{"Earth Mastery", "Stone Skin"}));
-        races.put("Umbral", new Race("Umbral", new String[]{"Shadow Manipulation", "Night Vision"}));
+        races.put("Aelorian", new Race("Aelorian", new String[]{"Arcane Mastery", "Ancient Wisdom"}) {
+            @Override
+            public void applyRacialAbilities(GameCharacter character) {
+
+            }
+        });
+        races.put("Lycan", new Race("Lycan", new String[]{"Feral Strength", "Enhanced Senses"}) {
+            @Override
+            public void applyRacialAbilities(GameCharacter character) {
+
+            }
+        });
+        races.put("Celestial", new Race("Celestial", new String[]{"Divine Light", "Healing Touch"}) {
+            @Override
+            public void applyRacialAbilities(GameCharacter character) {
+
+            }
+        });
+        races.put("Aquafae", new Race("Aquafae", new String[]{"Water Manipulation", "Aquatic Adaptation"}) {
+            @Override
+            public void applyRacialAbilities(GameCharacter character) {
+
+            }
+        });
+        races.put("Terran", new Race("Terran", new String[]{"Earth Mastery", "Stone Skin"}) {
+            @Override
+            public void applyRacialAbilities(GameCharacter character) {
+
+            }
+        });
+        races.put("Umbral", new Race("Umbral", new String[]{"Shadow Manipulation", "Night Vision"}) {
+            @Override
+            public void applyRacialAbilities(GameCharacter character) {
+
+            }
+        });
     }
 
     public abstract void applyRacialAbilities(GameCharacter character);

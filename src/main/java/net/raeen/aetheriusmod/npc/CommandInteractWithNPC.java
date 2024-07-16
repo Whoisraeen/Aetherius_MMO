@@ -12,21 +12,21 @@ public class CommandInteractWithNPC {
     private static final NPCManager npcManager = new NPCManager();
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("interactnpc")
-                .then(Commands.argument("npcName", StringArgumentType.string())
-                        .executes(context -> {
-                            ServerPlayer player = context.getSource().getPlayerOrException();
-                            String npcName = StringArgumentType.getString(context, "npcName");
-                            NPC npc = npcManager.getNPCByName(npcName);
+    dispatcher.register(Commands.literal("interactnpc")
+            .then(Commands.argument("npcName", StringArgumentType.string())
+                    .executes(context -> {
+                        ServerPlayer player = context.getSource().getPlayerOrException();
+                        String npcName = StringArgumentType.getString(context, "npcName");
+                        NPC npc = npcManager.getNPCByName(npcName);
 
-                            if (npc != null) {
-                                NPCInteractionHandler interactionHandler = new NPCInteractionHandler();
-                                interactionHandler.interactWithNPC(player, npc);
-                                return 1; // Success
-                            } else {
-                                player.sendSystemMessage(Component.literal("NPC not found"), player.getUUID());
-                                return 0; // Failure
-                            }
-                        })));
-    }
+                        if (npc != null) {
+                            NPCInteractionHandler interactionHandler = new NPCInteractionHandler();
+                            interactionHandler.interactWithNPC(player, npc);
+                            return 1; // Success
+                        } else {
+                            player.sendSystemMessage(Component.literal("NPC not found"));
+                            return 0; // Failure
+                        }
+                    })));
+}
 }

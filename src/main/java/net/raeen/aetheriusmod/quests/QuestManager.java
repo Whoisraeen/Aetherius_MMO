@@ -28,19 +28,7 @@ public class QuestManager {
     }
 
     public void updateQuestProgress(ServerPlayer player, QuestObjective objective) {
-        Quest quest = activeQuests.get(player.getUUID());
-        if (quest instanceof BranchingQuest) {
-            BranchingQuest branchingQuest = (BranchingQuest) quest;
-            if (branchingQuest.getQuestObjectives().contains(objective)) {
-                objective.complete();
-                if (branchingQuest.areAllObjectivesCompleted()) {
-                    completeQuest(player, branchingQuest);
-                    for (BranchingQuest nextBranch : branchingQuest.getNextBranches()) {
-                        assignQuest(player, nextBranch);
-                    }
-                }
-            }
-        }
+
     }
 
     public void assignDailyQuest(ServerPlayer player, DailyQuest quest) {

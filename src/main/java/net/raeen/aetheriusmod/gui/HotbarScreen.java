@@ -1,11 +1,12 @@
 package net.raeen.aetheriusmod.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemStack;
 import net.raeen.aetheriusmod.hotbar.Hotbar;
 
 public class HotbarScreen extends Screen {
@@ -31,12 +32,12 @@ public class HotbarScreen extends Screen {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(guiGraphics);
         RenderSystem.setShaderTexture(0, HOTBAR_TEXTURE);
         int x = (this.width - HOTBAR_WIDTH) / 2;
         int y = this.height - 40;
-        blit(x, y, 0, 0, HOTBAR_WIDTH, HOTBAR_HEIGHT);
+        guiGraphics.blit(guiGraphics, x, y, 0, 0, HOTBAR_WIDTH, HOTBAR_HEIGHT);
 
         // Render hotbar items
         for (int i = 0; i < hotbar.getItems().size(); i++) {
@@ -44,7 +45,10 @@ public class HotbarScreen extends Screen {
             // Render each item in the hotbar
         }
 
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+    }
+
+    private void blit(GuiGraphics guiGraphics, int x, int y, int pUOffset, int pVOffset, int hotbarWidth, int hotbarHeight) {
     }
 
     @Override
