@@ -1,4 +1,4 @@
-package net.raeen.aetheriusmod.items;
+import net.raeen.aetheriusmod.items.Item;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class CraftingSystem {
             }
             if (canCraft) {
                 // Craft the item
-                return new Item(itemName, "Crafted " + itemName, 1);
+                return new Item(itemName, "Crafted " + itemName, 1, 0); // Adding the fourth parameter
             }
         }
         return null;

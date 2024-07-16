@@ -18,26 +18,27 @@ public class AdvancedCraftingSystem {
     }
 
     public Item craftItem(String itemName, String[] materials) {
-    if (recipes.containsKey(itemName)) {
-        String[] requiredMaterials = recipes.get(itemName);
-        boolean canCraft = true;
-        for (String material : requiredMaterials) {
-            boolean found = false;
-            for (String providedMaterial : materials) {
-                if (providedMaterial.equals(material)) {
-                    found = true;
+        if (recipes.containsKey(itemName)) {
+            String[] requiredMaterials = recipes.get(itemName);
+            boolean canCraft = true;
+            for (String material : requiredMaterials) {
+                boolean found = false;
+                for (String providedMaterial : materials) {
+                    if (providedMaterial.equals(material)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    canCraft = false;
                     break;
                 }
             }
-            if (!found) {
-                canCraft = false;
-                break;
+            if (canCraft) {
+                return new Item(itemName, "Crafted " + itemName, 1, 0);
             }
         }
-        if (canCraft) {
-            return new Item(itemName, "Crafted " + itemName, 1, 0, "Crafted Item");
-        }
+        return null;
     }
-    return null;
 }
-}
+

@@ -63,4 +63,8 @@ public class Quest {
     public void setStages(List<String> stages) {
         this.stages = stages;
     }
+
+    public String getName() {
+        return null;
+    }
 }

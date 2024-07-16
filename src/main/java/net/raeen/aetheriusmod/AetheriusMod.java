@@ -64,7 +64,6 @@ public class AetheriusMod {
     private final CombatManager combatManager = new CombatManager();
     private final StatusEffectManager statusEffectManager = new StatusEffectManager();
     private final DungeonManager dungeonManager = new DungeonManager();
-    private final DungeonInstance dungeonMechanics = new DungeonInstance();
     private final NPCManager npcManager = new NPCManager();
     private final QuestAssignment questAssignment = new QuestAssignment(questManager, npcManager);
     private final EventScheduler eventScheduler = new EventScheduler(eventManager);
@@ -72,9 +71,8 @@ public class AetheriusMod {
     private final AuctionHouse auctionHouse = new AuctionHouse(economy);
     private final ComboAttackManager comboAttackManager = new ComboAttackManager();
     private final SpecialAbilityManager specialAbilityManager = new SpecialAbilityManager();
-    private final HousingCustomizationScreen housingCustomization = new HousingCustomizationScreen();
-    private final FurnitureManager furnitureManager = new FurnitureManager(housingCustomization);
-    private final DecorationManager decorationManager = new DecorationManager(housingCustomization);
+    private final FurnitureManager furnitureManager = new FurnitureManager(null); // Initialize with null for now
+    private final DecorationManager decorationManager = new DecorationManager(null); // Initialize with null for now
     private final DynamicInteractionManager dynamicInteractionManager = new DynamicInteractionManager(questManager);
     private final LevelingSystem levelingSystem = new LevelingSystem();
     private final AchievementManager achievementManager = new AchievementManager(levelingSystem.getPlayerProgressions());
@@ -107,119 +105,127 @@ public class AetheriusMod {
         Guild guild = guildManager.createGuild(leaderId, "Warriors");
         territoryManager.captureTerritory(guild.getGuildId(), "Valley of Heroes");
 
-        // Example daily quest setup
-        DailyQuest quest = new DailyQuest("Goblin Hunt", "Hunt 10 goblins in the forest", leaderId, 100);
-        questManager.assignDailyQuest((ServerPlayer) Minecraft.getInstance().player, quest);
+        // Obtain a reference to a ServerPlayer for server-side operations
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.getSingleplayerServer() != null) {
+            ServerPlayer player = minecraft.getSingleplayerServer().getPlayerList().getPlayer(minecraft.getUser().getProfile().getId());
 
-        // Example event setup
-        Event event = new Event("Treasure Hunt", "Find the hidden treasure", new Date(), new Date(System.currentTimeMillis() + 3600000), 200);
-        eventManager.scheduleEvent(event);
+            if (player != null && player.level instanceof ServerLevel) {
+                ServerLevel serverLevel = (ServerLevel) player.level;
 
-        // Example faction setup
-        Faction faction = factionManager.createFaction("Guardians");
-        faction.addMember(leaderId, "Leader");
+                // Example daily quest setup
+                DailyQuest quest = new DailyQuest("Goblin Hunt", "Hunt 10 goblins in the forest", leaderId, 100);
+                questManager.assignDailyQuest(player, quest);
 
-        // Example faction quest setup
-        FactionQuest factionQuest = new FactionQuest("Defend the Castle", "Defend the castle from invading forces", leaderId, 300);
-        factionQuestManager.assignFactionQuest((ServerPlayer) Minecraft.getInstance().player, factionQuest);
+                // Example event setup
+                Event newEvent = new Event("Treasure Hunt", "Find the hidden treasure", new Date(), new Date(System.currentTimeMillis() + 3600000), 200);
+                eventManager.scheduleEvent(newEvent);
 
-        // Example skill tree setup
-        SkillTreeManager skillTreeManager = new SkillTreeManager();
-        skillTreeManager.createSkillTree(leaderId);
-        Skill skill = new Skill("Fireball", "Casts a powerful fireball", 1, 5);
-        skillTreeManager.addSkillToPlayer(leaderId, skill);
+                // Example faction setup
+                Faction faction = factionManager.createFaction("Guardians");
+                faction.addMember(leaderId, "Leader");
 
-        // Example house setup
-        BlockPos houseLocation = new BlockPos(100, 64, 100);
-        houseManager.createHouse(leaderId, houseLocation);
+                // Example faction quest setup
+                FactionQuest factionQuest = new FactionQuest("Defend the Castle", "Defend the castle from invading forces", leaderId, 300);
+                factionQuestManager.assignFactionQuest(player, factionQuest);
 
-        // Example combat skill setup
-        CombatSkill combatSkill = new CombatSkill("Slash", "A powerful slashing attack", 10, 5);
-        combatManager.performSpecialAttack((ServerPlayer) Minecraft.getInstance().player, combatSkill, null);
+                // Example skill tree setup
+                skillTreeManager.createSkillTree(leaderId);
+                net.raeen.aetheriusmod.skills.Skill skill = new net.raeen.aetheriusmod.skills.Skill("Fireball", "Casts a powerful fireball", 1, 5);
+                skillTreeManager.addSkillToPlayer(leaderId, skill);
 
-        // Example status effect setup
-        StatusEffect poisonEffect = new StatusEffect("Poison", "Deals damage over time", 30, 5);
-        statusEffectManager.applyStatusEffect(null, poisonEffect); // Example usage
+                // Example house setup
+                BlockPos houseLocation = new BlockPos(100, 64, 100);
+                houseManager.createHouse(leaderId, houseLocation);
 
-        // Example dungeon setup
-        Dungeon dungeon = new Dungeon("Goblin Cave", new ResourceLocation("goblin_cave"), new BlockPos(200, 64, 200));
-        dungeonManager.registerDungeon(dungeon);
-        DungeonInstance instance = dungeonManager.createInstance("Goblin Cave", (ServerLevel) Minecraft.getInstance().level, List.of(Minecraft.getInstance().player));
-        if (instance != null) {
-            dungeonMechanics.spawnMobs((ServerLevel) Minecraft.getInstance().level, instance);
+                // Example combat skill setup
+                CombatSkill combatSkill = new CombatSkill("Slash", "A powerful slashing attack", 10, 5);
+                combatManager.performSpecialAttack(player, combatSkill, null);
+
+                // Example status effect setup
+                StatusEffect poisonEffect = new StatusEffect("Poison", "Deals damage over time", 30, 5);
+                statusEffectManager.applyStatusEffect(null, poisonEffect); // Example usage
+
+                // Example dungeon setup
+                Dungeon dungeon = new Dungeon("Goblin Cave", "goblin_cave", new BlockPos(200, 64, 200));
+                dungeonManager.registerDungeon(dungeon);
+                DungeonInstance instance = dungeonManager.createInstance("Goblin Cave", serverLevel, List.of(player));
+                if (instance != null) {
+                    instance.spawnMobs(serverLevel, instance);
+                }
+
+                // Example NPC setup
+                NPC npc = npcManager.createNPC("Quest Giver", serverLevel, VillagerType.PLAINS, new BlockPos(150, 64, 150));
+                npc.addQuest((Quest) quest);
+                questAssignment.assignQuest(player, npc.getUUID(), (Quest) quest);
+
+                // Schedule periodic events
+                eventScheduler.schedulePeriodicEvents();
+
+                // Example combo attack setup
+                ComboAttack comboAttack = new ComboAttack("Flurry", List.of(new CombatSkill("Slash", "A powerful slashing attack", 10, 5), new CombatSkill("Thrust", "A quick thrust", 8, 3)));
+                comboAttackManager.addComboAttack(comboAttack);
+
+                // Example special ability setup
+                SpecialAbility specialAbility = new SpecialAbility("Berserk", "Increases attack speed and damage", 30);
+                specialAbilityManager.addAbility(specialAbility);
+
+                // Open housing customization screen
+                HousingCustomizationScreen housingCustomizationScreen = new HousingCustomizationScreen(furnitureManager, decorationManager);
+                Minecraft.getInstance().setScreen(housingCustomizationScreen);
+
+                // Example player progression setup
+                levelingSystem.addPlayer(player);
+                levelingSystem.addExperience(player, 500); // Example experience gain
+                achievementManager.awardAchievement(player.getUUID(), new Achievement("First Kill", "Defeat your first enemy"));
+                titleManager.awardTitle(player.getUUID(), new Title("Novice", "Begin your adventure"));
+
+                // Example chat message
+                chatSystemManager.sendMessage(player, "Hello, World!", ChatChannel.WORLD);
+
+                // Example trade initiation
+                tradeSystemManager.initiateTrade(player, player);
+
+                // Example party creation
+                partyManager.createParty(player);
+                partyManager.addMember(player, player);
+
+                // Example dungeon boss creation and spawn
+                DungeonBoss boss = bossManager.createBoss(EntityType.ZOMBIE, new BlockPos(250, 64, 250), "Fire Breath");
+                bossManager.spawnBoss(boss, serverLevel);
+
+                // Register crafting recipes
+                RecipeRegistry.registerRecipes(craftingManager);
+
+                // Example crafting station and node setup
+                CraftingStation anvil = new CraftingStation("Anvil", new BlockPos(150, 64, 150));
+                craftingStationManager.addCraftingStation(anvil);
+
+                GatheringNode ironOre = new GatheringNode("Iron Ore", new BlockPos(175, 64, 175), new ItemStack(Items.IRON_INGOT, 1));
+                gatheringManager.addGatheringNode(ironOre);
+
+                // Example economy setup
+                economyManager.createAccount(player.getUUID());
+                economyManager.deposit(player.getUUID(), 1000.0); // Example deposit
+
+                // Example auction house setup
+                ItemStack itemToAuction = new ItemStack(Items.DIAMOND_SWORD);
+                auctionHouseManager.createAuction(player, itemToAuction, 500.0);
+
+                // Example duel setup
+                duelManager.startDuel(player, player);
+
+                // Example battleground setup
+                battlegroundManager.startBattleground(List.of(player), List.of(player));
+
+                // Example territory war setup
+                territoryWarManager.startWar(guild.getGuildId(), UUID.randomUUID());
+
+                // Example ranked PvP setup
+                rankedPvPManager.addPlayer(player);
+                rankedPvPManager.startRankedMatch(player, player);
+            }
         }
-
-        // Example NPC setup
-        NPC npc = npcManager.createNPC("Quest Giver", Minecraft.getInstance().level, VillagerType.PLAINS, new BlockPos(150, 64, 150));
-        Dialogue dialogue = new Dialogue("Hello, adventurer!", "Hello!");
-        npc.addDialogue(dialogue);
-        questAssignment.assignQuest((ServerPlayer) Minecraft.getInstance().player, npc.getUUID(), quest);
-
-        // Schedule periodic events
-        eventScheduler.schedulePeriodicEvents();
-
-        // Example combo attack setup
-        ComboAttack comboAttack = new ComboAttack("Flurry", List.of(new CombatSkill("Slash", "A powerful slashing attack", 10, 5), new CombatSkill("Thrust", "A quick thrust", 8, 3)));
-        comboAttackManager.addComboAttack(comboAttack);
-
-        // Example special ability setup
-        SpecialAbility specialAbility = new SpecialAbility("Berserk", "Increases attack speed and damage", 30);
-        specialAbilityManager.addAbility(specialAbility);
-
-        // Open housing customization screen
-        Minecraft.getInstance().setScreen(new HousingCustomizationScreen(furnitureManager, decorationManager));
-
-        // Example player progression setup
-        ServerPlayer player = Minecraft.getInstance().player;
-        levelingSystem.addPlayer(player);
-        levelingSystem.addExperience(player, 500); // Example experience gain
-        achievementManager.awardAchievement(player.getUUID(), new Achievement("First Kill", "Defeat your first enemy"));
-        titleManager.awardTitle(player.getUUID(), new Title("Novice", "Begin your adventure"));
-
-        // Example chat message
-        chatSystemManager.sendMessage(player, "Hello, World!", ChatChannel.WORLD);
-
-        // Example trade initiation
-        tradeSystemManager.initiateTrade(player, Minecraft.getInstance().player);
-
-        // Example party creation
-        partyManager.createParty(player);
-        partyManager.addMember(player, Minecraft.getInstance().player);
-
-        // Example dungeon boss creation and spawn
-        DungeonBoss boss = bossManager.createBoss(EntityType.ZOMBIE, new BlockPos(250, 64, 250), "Fire Breath");
-        bossManager.spawnBoss(boss, (ServerLevel) Minecraft.getInstance().level);
-
-        // Register crafting recipes
-        RecipeRegistry.registerRecipes(craftingManager);
-
-        // Example crafting station and node setup
-        CraftingStation anvil = new CraftingStation("Anvil", new BlockPos(150, 64, 150));
-        craftingStationManager.addCraftingStation(anvil);
-
-        GatheringNode ironOre = new GatheringNode("Iron Ore", new BlockPos(175, 64, 175), new ItemStack(Items.IRON_INGOT, 1));
-        gatheringManager.addGatheringNode(ironOre);
-
-        // Example economy setup
-        economyManager.createAccount(player.getUUID());
-        economyManager.deposit(player.getUUID(), 1000.0); // Example deposit
-
-        // Example auction house setup
-        ItemStack itemToAuction = new ItemStack(Items.DIAMOND_SWORD);
-        auctionHouseManager.createAuction(player, itemToAuction, 500.0);
-
-        // Example duel setup
-        duelManager.startDuel(player, Minecraft.getInstance().player);
-
-        // Example battleground setup
-        battlegroundManager.startBattleground(List.of(player), List.of(Minecraft.getInstance().player));
-
-        // Example territory war setup
-        territoryWarManager.startWar(guild.getGuildId(), UUID.randomUUID());
-
-        // Example ranked PvP setup
-        rankedPvPManager.addPlayer(player);
-        rankedPvPManager.startRankedMatch(player, Minecraft.getInstance().player);
     }
 
     @SubscribeEvent

@@ -1,7 +1,9 @@
 package net.raeen.aetheriusmod.npc;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -15,7 +17,12 @@ public class NPCManager {
     private final Map<UUID, NPC> npcs = new HashMap<>();
 
     public NPC createNPC(String name, Level level, VillagerType villagerType, BlockPos position) {
-        NPC npc = new NPC(name, villagerType, level);
+        NPC npc = new NPC(EntityType.VILLAGER, level, name, villagerType) {
+            @Override
+            protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+
+            }
+        };
         npc.setPos(position.getX(), position.getY(), position.getZ());
         npcs.put(npc.getUUID(), npc);
         if (level instanceof ServerLevel) {
@@ -44,7 +51,7 @@ public class NPCManager {
 
     public NPC getNPCByName(String npcName) {
         for (NPC npc : npcs.values()) {
-            if (npc.getName().equals(npcName)) {
+            if (npc.getName().getString().equals(npcName)) {
                 return npc;
             }
         }

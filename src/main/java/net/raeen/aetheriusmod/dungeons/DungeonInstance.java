@@ -47,4 +47,8 @@ public class DungeonInstance {
     public DungeonFloor[] getFloors() {
         return floors;
     }
+
+    public void spawnMobs(ServerLevel level, DungeonInstance instance) {
+
+    }
 }
